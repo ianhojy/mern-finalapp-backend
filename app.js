@@ -14,6 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
+app.use(express.static(path.join("public")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,23 +30,29 @@ app.use((req, res, next) => {
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 
+// for the frontend router to resolve the front end url for
+// those that dont have backend api (/auth)
 app.use((req, res, next) => {
-  const error = new HttpError("Could not find this route.", 404);
-  throw error;
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
-app.use((error, req, res, next) => {
-  if (req.file) {
-    fs.unlink(req.file.path, (err) => {
-      console.log(err);
-    });
-  }
-  if (res.headerSent) {
-    return next(error);
-  }
-  res.status(error.code || 500);
-  res.json({ message: error.message || "An unknown error occurred!" });
-});
+// app.use((req, res, next) => {
+//   const error = new HttpError("Could not find this route.", 404);
+//   throw error;
+// });
+
+// app.use((error, req, res, next) => {
+//   if (req.file) {
+//     fs.unlink(req.file.path, (err) => {
+//       console.log(err);
+//     });
+//   }
+//   if (res.headerSent) {
+//     return next(error);
+//   }
+//   res.status(error.code || 500);
+//   res.json({ message: error.message || "An unknown error occurred!" });
+// });
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
