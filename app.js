@@ -58,7 +58,7 @@ mongoose
     // `mongodb+srv://ianhojy:DLbK6GY3Bzvm6Xgw@cluster0.f7mboup.mongodb.net/mern?retryWrites=true&w=majority`
   )
   .then(() => {
-    app.listen(5000);
+    app.listen(process.env.PORT || 5000);
   })
   .catch((err) => {
     console.log(err);
