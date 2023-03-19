@@ -62,7 +62,6 @@ mongoose.set("useUnifiedTopology", true);
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.f7mboup.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
-    // `mongodb+srv://ianhojy:DLbK6GY3Bzvm6Xgw@cluster0.f7mboup.mongodb.net/mern?retryWrites=true&w=majority`
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);
